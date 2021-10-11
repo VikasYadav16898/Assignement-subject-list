@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, onValue, get } from "firebase/database";
+import { getDatabase, ref, set, onValue, get, remove } from "firebase/database";
 const firebaseConfig = {
   apiKey: "AIzaSyAO-Tgd0joaE6ftxwsC3rewIDKPLs5C3Mw",
   authDomain: "assignment-b6559.firebaseapp.com",
@@ -15,7 +15,9 @@ const fireDb = initializeApp(firebaseConfig);
 export const database = getDatabase(fireDb);
 
 export const writeData = async (path, payLoad) => {
-  await set(ref(database, path), payLoad);
+  await set(ref(database, path), payLoad).then(() => {
+    console.log("Succcess from server.");
+  });
 };
 
 export const getData = async (path) => {
@@ -27,4 +29,8 @@ export const getData = async (path) => {
       console.log("No data available");
     }
   });
+};
+
+export const deleteData = async (path) => {
+  await remove(ref(database, path));
 };
