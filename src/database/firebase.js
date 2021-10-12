@@ -1,13 +1,13 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, get, remove } from "firebase/database";
 const firebaseConfig = {
-  apiKey: "AIzaSyAO-Tgd0joaE6ftxwsC3rewIDKPLs5C3Mw",
-  authDomain: "assignment-b6559.firebaseapp.com",
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
   projectId: "assignment-b6559",
-  storageBucket: "assignment-b6559.appspot.com",
-  messagingSenderId: "19502637855",
-  appId: "1:19502637855:web:22556799e97b236747c62a",
-  measurementId: "G-KRFXF0W8G4",
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGE_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID,
 };
 
 // Initialize Firebase
