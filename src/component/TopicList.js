@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { writeData, database } from "../database/firebase";
-import { getDatabase, ref, set, onValue, get, update } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 import TopicListInput from "./TopicListInput";
 const TopicList = ({ subjectName }) => {
   //States
@@ -9,8 +9,8 @@ const TopicList = ({ subjectName }) => {
   const [topic, setTopic] = useState("");
 
   //dataFetching
-  useEffect(async () => {
-    await onValue(ref(database, `/${subjectName}`), (snapshot) => {
+  useEffect(() => {
+    onValue(ref(database, `/${subjectName}`), (snapshot) => {
       if (snapshot.exists()) {
         if (snapshot.val().split(",")[0] == "") {
           setTopicList([]);
@@ -21,38 +21,11 @@ const TopicList = ({ subjectName }) => {
         console.log("No data available");
       }
     });
-  }, []);
-
-  //deleting Functionality
-  const deleteButtonListener = (event) => {
-    console.log(event.target.value);
-
-    const newList = topicList.filter((item) => item !== event.target.value);
-    setTopicList(newList);
-    writeData(`/${subjectName}`, newList.toString()).then(() =>
-      console.log("SUCCESS")
-    );
-  };
-
-  //edit functionality
-  const editButtonListener = (event) => {
-    topicList.map((topic, index) => {
-      if (topic == event.target.value) {
-        const newList = topicList;
-        topicList[index] = topic;
-        setTopicList(newList);
-        writeData(`/${subjectName}`, topicList.toString()).then(() => {
-          console.log("SUCCESS");
-          event.target.value = "";
-          setTopic("");
-        });
-      }
-    });
-  };
+  }, [subjectName]);
 
   //listeners
-  const clickListener = (e) => {
-    if (topic == "") {
+  const addTopicListener = (e) => {
+    if (topic === "") {
       alert("Kindly add topic.");
       return "";
     }
@@ -62,7 +35,6 @@ const TopicList = ({ subjectName }) => {
     writeData(`/${subjectName}`, tempList.toString()).then(() => {
       setTopic("");
     });
-    console.log(tempList);
   };
 
   const changeListener = (e) => {
@@ -87,12 +59,10 @@ const TopicList = ({ subjectName }) => {
         <input
           onChange={changeListener}
           type="text"
-          name=""
-          id=""
           value={topic}
           placeholder="Type new Topic."
         />
-        <button onClick={clickListener}>Add</button>
+        <button onClick={addTopicListener}>Add</button>
       </StyledAddTopicContainer>
     </StyledContainer>
   );
