@@ -62,7 +62,7 @@ const Main = () => {
           subjectList.map((data, index) => {
             return (
               <Subject
-                key={index}
+                key={data}
                 subjectName={data}
                 subjectList={subjectList}
                 setSubjectList={(value) => {
