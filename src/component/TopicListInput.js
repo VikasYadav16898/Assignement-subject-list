@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import { writeData, database } from "../database/firebase";
+import { writeData } from "../database/firebase";
 import styled from "styled-components";
 
 const TopicListInput = ({ topic, topicList, setTopicList, subjectName }) => {
   //states
   const [editedTopic, seteditedTopic] = useState(topic);
 
+  //listeners
   const editButtonListener = (e) => {
-    if (editedTopic == "") {
+    if (editedTopic === "") {
       alert("Kindly add topic name");
       return "";
     }
 
-    topicList.map((item, index) => {
-      if (topic == item) {
+    topicList.forEach((item, index) => {
+      if (topic === item) {
         const newList = topicList;
         newList[index] = editedTopic;
         setTopicList(newList);

@@ -11,8 +11,8 @@ const Main = () => {
   const [subject, setSubject] = useState("");
 
   //Data Retrieval
-  useEffect(async () => {
-    await onValue(ref(database, "/subjects"), (snapshot) => {
+  useEffect(() => {
+    onValue(ref(database, "/subjects"), (snapshot) => {
       if (snapshot.exists()) {
         setSubjectList(snapshot.val().split(","));
       } else {
@@ -23,12 +23,12 @@ const Main = () => {
 
   //Listeners
   const clickListener = (e) => {
-    if (subject == "") {
+    if (subject === "") {
       return alert("Kindly enter subject name");
     } else {
       var isPresent;
       subjectList.forEach((item, index) => {
-        if (item == subject) {
+        if (item === subject) {
           isPresent = true;
         }
       });
@@ -38,7 +38,7 @@ const Main = () => {
     }
     const tempList = subjectList;
     console.log(subjectList, "subjectList");
-    if (tempList[0] == "") {
+    if (tempList[0] === "") {
       tempList[0] = subject;
     } else {
       tempList.push(subject);
@@ -57,15 +57,17 @@ const Main = () => {
     <StyledMainDiv>
       <Nav />
       <StyledDiv>
-        {subjectList == "" && <h1>Add Subject Please</h1>}
-        {subjectList == "" ||
+        {subjectList === "" && <h1>Add Subject Please</h1>}
+        {subjectList === "" ||
           subjectList.map((data, index) => {
             return (
               <Subject
                 key={index}
                 subjectName={data}
                 subjectList={subjectList}
-                setSubjectList={setSubjectList}
+                setSubjectList={(value) => {
+                  setSubjectList(value);
+                }}
               />
             );
           })}

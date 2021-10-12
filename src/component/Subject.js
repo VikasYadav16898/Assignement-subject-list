@@ -9,25 +9,22 @@ import { writeData, deleteData, database } from "../database/firebase";
 import { ref, get, remove } from "firebase/database";
 
 const Subject = ({ subjectName, subjectList, setSubjectList }) => {
+  //states
   const [editedSubject, setEditedSubject] = useState(subjectName);
-  const [topicList, setTopicList] = useState([]);
 
   //Listeners
-
   const editButtonListener = (e) => {
-    if (editedSubject == "") {
+    if (editedSubject === "") {
       alert("Kindly add subject name.");
     } else {
       subjectList.map(async (item, index) => {
-        if (item == subjectName) {
+        if (item === subjectName) {
           var newName = "";
           const newList = subjectList;
           newList[index] = editedSubject;
-          // setSubjectList(newList);
 
           await get(ref(database, `/${subjectName}`)).then((snapshot) => {
             if (snapshot.exists()) {
-              // setTopicList(snapshot.val().split(","));
               console.log(subjectName, "Subject Name");
               newName = snapshot.val().split(",");
               console.log(newList, "snapshot hai");
@@ -55,12 +52,17 @@ const Subject = ({ subjectName, subjectList, setSubjectList }) => {
 
   const deleteButtonListener = (e) => {
     console.log(e.target.value);
+    if (subjectList.length === 1) {
+      return alert("This is only subject present.");
+    }
 
     const newList = subjectList.filter((item) => item !== subjectName);
-    setSubjectList(newList);
-    writeData(`/subjects`, newList.toString()).then(() =>
-      console.log("SUCCESS")
-    );
+    writeData(`/subjects`, newList.toString()).then(() => {
+      console.log(newList);
+      setSubjectList(newList);
+      console.log(subjectList, "sl");
+      console.log("SUCCESS");
+    });
     remove(ref(database, `/${subjectName}`));
   };
 

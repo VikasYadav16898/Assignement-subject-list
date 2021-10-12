@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, onValue, get, remove } from "firebase/database";
+import { getDatabase, ref, set, get, remove } from "firebase/database";
 const firebaseConfig = {
   apiKey: "AIzaSyAO-Tgd0joaE6ftxwsC3rewIDKPLs5C3Mw",
   authDomain: "assignment-b6559.firebaseapp.com",
